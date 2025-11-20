@@ -1,0 +1,56 @@
+{
+  "name": "markdown-it-inline-code",
+  "version": "0.1.1-beta.0",
+  "description": "Markdown-it plugin for syntax-highlighted inline code using Shiki",
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Efterklang/markdown-it-inline-code.git"
+  },
+  "bugs": "https://github.com/Efterklang/markdown-it-inline-code/issues",
+  "homepage": "https://github.com/Efterklang/markdown-it-inline-code#readme",
+  "keywords": [
+    "markdown-it-plugin",
+    "markdown-it",
+    "markdown",
+    "inline-code",
+    "syntax-highlight",
+    "shiki"
+  ],
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "dev": "vitest",
+    "test": "bun run test/test.ts",
+    "check": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "peerDependencies": {
+    "markdown-it": "^14.0.0"
+  },
+  "dependencies": {
+    "shiki": "^3.15.0"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^14.0.1",
+    "@types/node": "^22.13.8",
+    "markdown-it": "^14.1.0",
+    "typescript": "^5.3.3",
+    "vite": "^6.0.2",
+    "vitest": "^3.0.2"
+  }
+}
