@@ -60,27 +60,25 @@ function inlineCodeHighlightPlugin(
         if (!token) return ''
 
         const content = token.content.trim()
+        // 于`{lang} code`中捕获lang和code
         const match = content.match(/^\{(\w+)\}\s+(.+)$/)
 
-        if (match) {
-            const lang = match[1] || 'text'
-            const code = match[2] || ''
-
-            try {
-                const highlighted = shiki.codeToHtml(code, {
-                    lang: lang,
-                    themes: themeMap,
-                    structure: 'inline'
-                })
-
-                return '<code' + self.renderAttrs(token) + '>' + highlighted + '</code>'
-            } catch (e) {
-                console.error('Highlighting failed', e)
-                return defaultRender(tokens, idx, options, env, self)
-            }
+        if (match === null) {
+            return defaultRender(tokens, idx, options, env, self)
         }
 
-        return defaultRender(tokens, idx, options, env, self)
+        try {
+            const highlighted = shiki.codeToHtml(match[2], {
+                lang: match[1],
+                themes: themeMap,
+                structure: 'inline'
+            })
+
+            return '<code' + self.renderAttrs(token) + '>' + highlighted + '</code>'
+        } catch (e) {
+            console.error('Highlighting failed', e)
+            return defaultRender(tokens, idx, options, env, self)
+        }
     }
 }
 
