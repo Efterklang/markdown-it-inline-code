@@ -1,6 +1,6 @@
 {
   "name": "markdown-it-inline-code",
-  "version": "0.1.1-beta.1",
+  "version": "0.2.0",
   "description": "Markdown-it plugin for syntax-highlighted inline code using Shiki",
   "author": "Your Name",
   "license": "MIT",
