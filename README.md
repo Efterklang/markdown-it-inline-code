@@ -45,7 +45,26 @@ Use the following syntax to highlight inline code:
 
 ## Options
 
-Currently, the plugin does not accept any options.
+| Option   | Type                     | Description                                                                                                                       |
+| -------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| `themes` | `Record<string, string>` | A map of theme names to Shiki theme IDs. Default: `{ light: 'catppuccin-latte', dark: 'catppuccin-mocha', tokyo: 'tokyo-night' }` |
+
+### Example Configuration
+
+```typescript
+import MarkdownIt from 'markdown-it'
+import inlineCodeHighlightPlugin from 'markdown-it-inline-code'
+
+const md = new MarkdownIt()
+
+md.use(inlineCodeHighlightPlugin, {
+  themes: {
+    light: 'catppuccin-latte',
+    dark: 'nord',
+    custom: 'dracula'
+  }
+})
+```
 
 ## Development
 

@@ -11,18 +11,8 @@ export default defineConfig({
     rollupOptions: {
       external: [
         'markdown-it',
-        'shiki',
-        'shiki/core',
-        'shiki/engine/javascript',
-        '@shikijs/langs/javascript',
-        '@shikijs/langs/python',
-        '@shikijs/langs/sql',
-        '@shikijs/langs/awk',
-        '@shikijs/langs/shell',
-        '@shikijs/langs/nushell',
-        '@shikijs/themes/catppuccin-latte',
-        '@shikijs/themes/catppuccin-mocha',
-        '@shikijs/themes/tokyo-night'
+        /^shiki/,
+        /^@shikijs\//,
       ],
       output: {
         globals: {

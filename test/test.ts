@@ -5,7 +5,13 @@ import { join } from 'path'
 
 async function main() {
   const md = new MarkdownIt()
-  md.use(inlineCodeHighlightPlugin, {})
+  md.use(inlineCodeHighlightPlugin, {
+    themes: {
+      light: 'catppuccin-latte',
+      dark: 'nord',
+      tokyo: 'tokyo-night'
+    }
+  })
 
   // Test markdown examples
   const examples = [

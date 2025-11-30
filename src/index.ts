@@ -2,14 +2,8 @@ import type MarkdownIt from 'markdown-it'
 
 import { createHighlighterCoreSync } from 'shiki/core'
 import { createJavaScriptRegexEngine } from 'shiki/engine/javascript'
-// lang
 import { allLangs } from './all-langs'
-// theme
-import latte from '@shikijs/themes/catppuccin-latte'
-import mocha from '@shikijs/themes/catppuccin-mocha'
-import tokyo_night from '@shikijs/themes/tokyo-night'
-
-const themes = [latte, mocha, tokyo_night]
+import { allThemes } from './all-themes'
 
 const SHIKI_KEY = Symbol.for('mdit-inline-code-shiki')
 
@@ -17,21 +11,22 @@ function getShiki() {
     const g = globalThis as any
     if (g[SHIKI_KEY]) return g[SHIKI_KEY]
 
-    // Handle potential default export wrapping when bundled/externalized
-    const themeList = themes.map(t => (t as any).default || t)
-
     const shiki = createHighlighterCoreSync({
         langs: allLangs,
-        themes: themeList,
+        themes: allThemes,
         engine: createJavaScriptRegexEngine()
     })
     g[SHIKI_KEY] = shiki
     return shiki
 }
 
+export interface InlineCodeHighlightOptions {
+    themes?: Record<string, string>
+}
+
 function inlineCodeHighlightPlugin(
     md: MarkdownIt,
-    _options: null
+    options?: InlineCodeHighlightOptions
 ) {
     const shiki = getShiki()
 
@@ -52,10 +47,10 @@ function inlineCodeHighlightPlugin(
     const themeMap = {
         light: 'catppuccin-latte',
         dark: 'catppuccin-mocha',
-        tokyo: 'tokyo-night'
+        ...options?.themes
     }
 
-    md.renderer.rules.code_inline = function (tokens, idx, options, env, self) {
+    md.renderer.rules.code_inline = function (tokens, idx, _options, env, self) {
         const token = tokens[idx]
         if (!token) return ''
 
@@ -64,7 +59,7 @@ function inlineCodeHighlightPlugin(
         const match = content.match(/^\{(\w+)\}\s+(.+)$/)
 
         if (match === null) {
-            return defaultRender(tokens, idx, options, env, self)
+            return defaultRender(tokens, idx, _options, env, self)
         }
 
         try {
@@ -77,7 +72,7 @@ function inlineCodeHighlightPlugin(
             return '<code' + self.renderAttrs(token) + '>' + highlighted + '</code>'
         } catch (e) {
             console.error('Highlighting failed', e)
-            return defaultRender(tokens, idx, options, env, self)
+            return defaultRender(tokens, idx, _options, env, self)
         }
     }
 }
